@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<data>
+    <variable
+        name="albumViewmodel"
+        type="com.example.usersimageapp.albuminfo.AlbumInfoViewModel" />
+</data>
+
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_grey"
+    tools:context=".albuminfo.AlbumInfoFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/albuminfo_item" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:ApiStatus="@{albumViewmodel.albumapistatus}"
+        tools:srcCompat="@drawable/loading_animation" />
+
+
+</FrameLayout>
+
+
+</layout>

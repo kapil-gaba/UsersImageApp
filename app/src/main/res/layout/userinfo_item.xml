@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+     name="users"
+     type="com.example.usersimageapp.network.Users"
+            />
+<variable
+    name="userItemClick"
+    type="com.example.usersimageapp.userinfo.UserItemClick" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/usertile_color"
+            android:padding="8dp">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/left_well"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="8dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/right_well"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="8dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/name_text"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/username"
+                app:layout_constraintStart_toStartOf="@+id/left_well"
+                tools:text="Name:" />
+
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/email_text"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/useremail"
+                app:layout_constraintStart_toStartOf="@+id/left_well"
+                tools:text="Email:" />
+
+            <View
+                android:id="@+id/clickableOverlay"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                android:onClick="@{() -> userItemClick.onClick(users)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/phone_text"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/userphone"
+                app:layout_constraintStart_toStartOf="@+id/left_well"
+                tools:text="Phone:" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{users.name}"
+                android:textColor="@color/text_color"
+                app:layout_constraintStart_toEndOf="@+id/barrier"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Username" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="phone,email,name"
+                tools:layout_editor_absoluteX="411dp" />
+
+            <TextView
+                android:id="@+id/useremail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{users.email}"
+                android:textColor="@color/text_color"
+                app:layout_constraintStart_toEndOf="@+id/barrier"
+                app:layout_constraintTop_toBottomOf="@+id/username"
+                tools:text="Useremail" />
+
+            <TextView
+                android:id="@+id/userphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{users.phone}"
+                android:textColor="@color/text_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/barrier"
+                app:layout_constraintTop_toBottomOf="@+id/useremail"
+                tools:text="Userphone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

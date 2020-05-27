@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/userInfoFragment">
+
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.example.usersimageapp.userinfo.UserInfoFragment"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info" >
+        <action
+            android:id="@+id/action_userInfoFragment_to_albumInfoFragment"
+            app:destination="@id/albumInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumInfoFragment"
+        android:name="com.example.usersimageapp.albuminfo.AlbumInfoFragment"
+        android:label="AlbumInfoFragment" >
+        <argument
+            android:name="selectedUser"
+            app:argType="com.example.usersimageapp.network.Users" />
+    </fragment>
+</navigation>
