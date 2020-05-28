@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -35,22 +36,41 @@ private var albumDataAdapter : AlbumDataAdapter? = null
         savedInstanceState: Bundle?
     ): View? {
 
+        //Databinding
         val binding : FragmentAlbumInfoBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_album_info,container,false)
+
         val application = requireNotNull(activity).application
         val args = AlbumInfoFragmentArgs.fromBundle(arguments!!).selectedUser
-        val viewModelFactory = AlbumInfoViewModelFactory(args,application)
+
+        //getting albuminfoviewmodel from its viewmodelfactory
+         val viewModelFactory = AlbumInfoViewModelFactory(args,application)
          albuminfoViewModel = ViewModelProviders.of(this, viewModelFactory).get(AlbumInfoViewModel::class.java)
 
         binding.setLifecycleOwner(this)
+
         binding.albumViewmodel = albuminfoViewModel
+
+
+        // observing albums livedata
         albuminfoViewModel.albums.observe(viewLifecycleOwner, Observer<List<Albums>> { albums ->
             albums?.apply {
                 albumDataAdapter?.albums = albums
             }
         })
 
+        /**
+         * Navigation from albumfragment to picturefragment
+         * */
      albumDataAdapter = AlbumDataAdapter( AlbumItemClick {
-         Toast.makeText(context,"Album ${it.albumId}",Toast.LENGTH_SHORT).show()
+         //Toast.makeText(context,"Album ${it.albumId}",Toast.LENGTH_SHORT).show()
+         albuminfoViewModel.navigateToPictureScreen(it)
+     })
+
+     albuminfoViewModel.navigateAlbumToPictureFragment.observe(this, Observer {
+         if(null!=it){
+             this.findNavController().navigate(AlbumInfoFragmentDirections.actionAlbumInfoFragmentToPictureFragment(it))
+             albuminfoViewModel.onNavigationToPictureFinish()
+         }
      })
 
 

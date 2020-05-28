@@ -25,7 +25,7 @@ import com.example.usersimageapp.network.Users
 class UserInfoFragment : Fragment() {
 
 
-// To delay the loading data
+    // Accessing viewModel on activity created
     private val viewModel: UserInfoViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "We can only access the viewModel after onActivityCreated()"
@@ -40,6 +40,7 @@ class UserInfoFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //Observing users live data
         viewModel.users.observe(viewLifecycleOwner, Observer<List<Users>> { users ->
             users?.apply {
                 userdataAdapter?.users = users
@@ -54,24 +55,28 @@ class UserInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-  val binding : FragmentUserInfoBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_user_info,container,false)
+        //Databinding
+        val binding: FragmentUserInfoBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_user_info, container, false)
 
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.setLifecycleOwner(viewLifecycleOwner)
 
         binding.viewModel = viewModel
 
-
+        // Navigation from userfragment to albumfragment
         userdataAdapter = UserDataAdapter(UserItemClick {
 
             viewModel.navigateToAlbumScreen(it)
 
-           // Toast.makeText(context,"User ${it.id}",Toast.LENGTH_SHORT).show()
+            // Toast.makeText(context,"User ${it.id}",Toast.LENGTH_SHORT).show()
         })
 
         viewModel.navigateUserToAlbumFragment.observe(this, Observer {
-            if(null!=it) {
-                this.findNavController().navigate(UserInfoFragmentDirections.actionUserInfoFragmentToAlbumInfoFragment(it))
+            if (null != it) {
+                this.findNavController().navigate(
+                    UserInfoFragmentDirections.actionUserInfoFragmentToAlbumInfoFragment(it)
+                )
                 viewModel.onNavigationToAlbumFinish()
             }
         })

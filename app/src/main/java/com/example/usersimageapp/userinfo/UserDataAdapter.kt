@@ -9,7 +9,7 @@ import com.example.usersimageapp.R
 import com.example.usersimageapp.databinding.UserinfoItemBinding
 import com.example.usersimageapp.network.Users
 
-
+// Recyclerview Adapter for attaching users data
 class UserDataAdapter(val callback: UserItemClick) : RecyclerView.Adapter<UserInfoViewHolder>() {
 
 
@@ -51,13 +51,13 @@ class UserDataAdapter(val callback: UserItemClick) : RecyclerView.Adapter<UserIn
 
 }
 
-
+//On user item click lambda
 class UserItemClick(val block: (Users) -> Unit) {
 
     fun onClick(users: Users) = block(users)
 }
 
-
+//ViewHolder for userdataitem
 class UserInfoViewHolder(val viewDataBinding: UserinfoItemBinding) :
     RecyclerView.ViewHolder(viewDataBinding.root) {
     companion object {

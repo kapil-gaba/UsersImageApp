@@ -10,7 +10,7 @@ import com.example.usersimageapp.userinfo.ApiStatus
 import com.squareup.picasso.Picasso
 
 //  Image url from web service not working with Glide and Picasso libraries
-
+// Under testing
 @BindingAdapter("imgSrcUrl")
 fun loadImage(imgView: ImageView, imgUrl: String) {
     //  Glide.with(imgView.context).load("https://via.placeholder.com/600/92c952").into(imgView)
@@ -29,6 +29,8 @@ fun loadImage(imgView: ImageView, imgUrl: String) {
 //    }
 
 }
+
+// Binding adapter for getting ApiStatus check
 
 @BindingAdapter("ApiStatus")
 fun getApiStatus(imgView: ImageView, status: ApiStatus?){

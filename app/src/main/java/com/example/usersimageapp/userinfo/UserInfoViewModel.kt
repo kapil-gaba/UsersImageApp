@@ -12,62 +12,73 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-enum class ApiStatus{
+
+enum class ApiStatus {
     LOADING,
     DONE,
     ERROR
 }
 
+
 class UserInfoViewModel(application: Application) : AndroidViewModel(application) {
 
+// Coroutines
     val job = Job()
 
     val viewModelScope = CoroutineScope(job + Dispatchers.Main)
 
+    // For api status
     private val _status = MutableLiveData<ApiStatus>()
 
-    val status : LiveData<ApiStatus>
-                      get() = _status
+    val status: LiveData<ApiStatus>
+        get() = _status
 
+    // For user data
     private val _users = MutableLiveData<List<Users>>()
 
-    val users : LiveData<List<Users>>
-         get() = _users
+    val users: LiveData<List<Users>>
+        get() = _users
 
+
+    // Navigation from userfragment to albumfragment
     private val _navigateUserToAlbumFragment = MutableLiveData<Users>()
-    val navigateUserToAlbumFragment : LiveData<Users> get() = _navigateUserToAlbumFragment
+    val navigateUserToAlbumFragment: LiveData<Users> get() = _navigateUserToAlbumFragment
 
-    fun navigateToAlbumScreen(users: Users){
+    fun navigateToAlbumScreen(users: Users) {
         _navigateUserToAlbumFragment.value = users
     }
 
-    fun onNavigationToAlbumFinish(){
+    fun onNavigationToAlbumFinish() {
         _navigateUserToAlbumFragment.value = null
     }
 
 
-
     init {
+        //getting data on initialization of viewModel
         getUsersData()
     }
 
-    fun getUsersData(){
+
+    fun getUsersData() {
+
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             val defferedUserData = UsersApi.userslist.getUsers()
-            try{
+
+            try {
                 val usersList = defferedUserData.await()
-             if(usersList.size>0){
-                 _status.value = ApiStatus.DONE
-                 _users.value = usersList
-             }
-            }catch (networkerror : IOException){
+                if (usersList.size > 0) {
+                    _status.value = ApiStatus.DONE
+                    _users.value = usersList
+                }
+            } catch (networkerror: IOException) {
                 _status.value = ApiStatus.ERROR
-               _users.value = ArrayList()
+                _users.value = ArrayList()
             }
         }
     }
 
+    // Cancelling job on clearing viewModel
     override fun onCleared() {
         super.onCleared()
         job.cancel()

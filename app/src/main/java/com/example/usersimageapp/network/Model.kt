@@ -5,6 +5,9 @@ import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
 
+/**
+ *  Data class for fetching userinfo from service
+ */
 @Parcelize
 data class Users(
     val id: Int,
@@ -13,9 +16,13 @@ data class Users(
     val phone: String
 ) : Parcelable
 
+/**
+ * Data class for fetching albuminfo from service
+ */
+@Parcelize
 data class Albums(
 val albumId : Int,
 val title : String,
 val url : String,
 val thumbnailUrl : String
-)
+):Parcelable

@@ -12,7 +12,10 @@ import com.example.usersimageapp.databinding.UserinfoItemBinding
 import com.example.usersimageapp.network.Albums
 
 
-
+/**
+ * Recyclerview adapter for attaching all albums in albuminfo
+ *
+ */
 class AlbumDataAdapter(val callback: AlbumItemClick) : RecyclerView.Adapter<AlbumInfoViewHolder>() {
 
 
@@ -34,7 +37,8 @@ class AlbumDataAdapter(val callback: AlbumItemClick) : RecyclerView.Adapter<Albu
             LayoutInflater.from(parent.context),
             AlbumInfoViewHolder.LAYOUT,
             parent,
-            false)
+            false
+        )
         return AlbumInfoViewHolder(withDataBinding)
     }
 
@@ -56,12 +60,20 @@ class AlbumDataAdapter(val callback: AlbumItemClick) : RecyclerView.Adapter<Albu
 }
 
 
+/**
+ * On Album click lambda
+ *
+ */
 class AlbumItemClick(val block: (Albums) -> Unit) {
 
     fun onClick(albums: Albums) = block(albums)
 }
 
 
+/**
+ * Viewholder to albums
+ *
+ */
 class AlbumInfoViewHolder(val viewDataBinding: AlbuminfoItemBinding) :
     RecyclerView.ViewHolder(viewDataBinding.root) {
     companion object {
