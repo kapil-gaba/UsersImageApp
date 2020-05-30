@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.usersimageapp.R
 import com.example.usersimageapp.databinding.FragmentUserInfoBinding
 import com.example.usersimageapp.network.Users
+import com.example.usersimageapp.network.UsersApi
 
 /**
  * A simple [Fragment] subclass.

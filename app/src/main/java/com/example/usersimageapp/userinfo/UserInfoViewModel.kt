@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.usersimageapp.network.Users
 import com.example.usersimageapp.network.UsersApi
+import com.example.usersimageapp.network.UsersService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,7 +21,9 @@ enum class ApiStatus {
 }
 
 
-class UserInfoViewModel(application: Application) : AndroidViewModel(application) {
+class UserInfoViewModel(
+    application: Application
+) : AndroidViewModel(application) {
 
 // Coroutines
     val job = Job()
@@ -63,11 +66,10 @@ class UserInfoViewModel(application: Application) : AndroidViewModel(application
 
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
-            val defferedUserData = UsersApi.userslist.getUsers()
-
+        val deferredData = UsersApi.userslist.getUsers()
             try {
-                val usersList = defferedUserData.await()
-                if (usersList.size > 0) {
+                val usersList = deferredData.await()
+                if (usersList.isNotEmpty()) {
                     _status.value = ApiStatus.DONE
                     _users.value = usersList
                 }

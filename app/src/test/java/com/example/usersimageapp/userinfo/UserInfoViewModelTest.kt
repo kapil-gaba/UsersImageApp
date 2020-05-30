@@ -16,6 +16,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
 
 
 @RunWith(AndroidJUnit4::class)
@@ -26,28 +29,34 @@ class UserInfoViewModelTest{
 
     private lateinit var usersService : UsersService
 
+
+
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp(){
+        usersService = mockk()
+
         //Given a fresh userviewmodel
          userViewModel = UserInfoViewModel(ApplicationProvider.getApplicationContext())
 
-        usersService = mockk()
     }
 
     @Test
     fun usersService_returndeferredUsersList() {
 
-        val usersList = listOf<Users>(Users(1,"Kapil","kaps12@gmail.com","46546545646"),
+        val usersList = listOf(Users(1,"Kapil","kaps12@gmail.com","546545646"),
                                       Users(2,"rahul","rahs13@gmail.com","5887455454") )
 
-        coEvery { usersService.getUsers() } returns CompletableDeferred(usersList)
+       coEvery { usersService.getUsers() } returns CompletableDeferred(usersList)
 
-        val usersData = runBlocking { usersService.getUsers().await() }
 
-        assertEquals(2, usersData.size)
+       val result = runBlocking {
+           usersService.getUsers().await()
+       }
+
+        assertEquals(2, result.size)
     }
 
     @Test
@@ -71,7 +80,7 @@ class UserInfoViewModelTest{
         //When navigation finish
         userViewModel.onNavigationToAlbumFinish()
 
-        //Then the set value to null
+        //Then set value to null
         assertThat(userViewModel.navigateUserToAlbumFragment.getOrAwaitValue(),(nullValue()))
 
     }
