@@ -9,11 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 
 import com.example.usersimageapp.R
+import com.example.usersimageapp.createFactory
 import com.example.usersimageapp.databinding.FragmentPictureBinding
 
-/**
- * A simple [Fragment] subclass.
- */
+
+
 class PictureFragment : Fragment() {
 
     override fun onCreateView(
@@ -22,17 +22,25 @@ class PictureFragment : Fragment() {
     ): View? {
 
         //Databinding
-        val binding : FragmentPictureBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_picture,container,false)
+        val binding: FragmentPictureBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_picture, container, false)
 
         val application = requireNotNull(activity).application
-        val args = PictureFragmentArgs.fromBundle(arguments!!).selectedAlbum
+
+        val args = arguments?.let {
+            PictureFragmentArgs.fromBundle(it).selectedAlbum
+        }
+
 
         //Getting viewmodel from viewmodelfactory
-        val viewModelFactory = PictureViewModelFactory(args,application)
-        val pictureViewModel = ViewModelProviders.of(this, viewModelFactory).get(PictureViewModel::class.java)
+        val viewModelFactory = PictureViewModel(args, application).createFactory()
+        val pictureViewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(PictureViewModel::class.java)
 
-        binding.pictureViewModel = pictureViewModel
-        binding.setLifecycleOwner(this)
+        binding.also{
+            it.lifecycleOwner = this
+            it.pictureViewModel = pictureViewModel
+        }
 
         // Inflate the layout for this fragment
         return binding.root

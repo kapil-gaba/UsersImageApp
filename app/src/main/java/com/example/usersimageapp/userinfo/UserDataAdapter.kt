@@ -22,26 +22,22 @@ class UserDataAdapter(val callback: UserItemClick) : RecyclerView.Adapter<UserIn
             notifyDataSetChanged()
         }
 
-    /**
-     * Called when RecyclerView needs a new {@link ViewHolder} of the given type to represent
-     * an item.
-     */
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserInfoViewHolder {
         val withDataBinding: UserinfoItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             UserInfoViewHolder.LAYOUT,
             parent,
-            false)
+            false
+        )
         return UserInfoViewHolder(withDataBinding)
     }
 
     override fun getItemCount() = users.size
 
-    /**
-     * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the {@link ViewHolder#itemView} to reflect the item at the given
-     * position.
-     */
+
+
     override fun onBindViewHolder(holder: UserInfoViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.users = users[position]

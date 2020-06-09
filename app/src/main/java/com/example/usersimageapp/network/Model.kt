@@ -1,7 +1,6 @@
 package com.example.usersimageapp.network
 
 import android.os.Parcelable
-import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
 
@@ -21,8 +20,8 @@ data class Users(
  */
 @Parcelize
 data class Albums(
-val albumId : Int,
-val title : String,
-val url : String,
-val thumbnailUrl : String
-):Parcelable
+    val albumId: Int,
+    val title: String,
+    val url: String,
+    val thumbnailUrl: String
+) : Parcelable

@@ -16,13 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.usersimageapp.R
+import com.example.usersimageapp.createFactory
 import com.example.usersimageapp.databinding.FragmentUserInfoBinding
 import com.example.usersimageapp.network.Users
 import com.example.usersimageapp.network.UsersApi
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class UserInfoFragment : Fragment() {
 
 
@@ -31,7 +30,7 @@ class UserInfoFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "We can only access the viewModel after onActivityCreated()"
         }
-        ViewModelProviders.of(this, UserInfoViewModelFactory(activity.application))
+        ViewModelProviders.of(this, UserInfoViewModel(activity.application).createFactory())
             .get(UserInfoViewModel::class.java)
     }
 
@@ -60,10 +59,11 @@ class UserInfoFragment : Fragment() {
         val binding: FragmentUserInfoBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_user_info, container, false)
 
-        // Set the lifecycleOwner so DataBinding can observe LiveData
-        binding.setLifecycleOwner(viewLifecycleOwner)
-
-        binding.viewModel = viewModel
+        // Setting lifecycleOwner so DataBinding can observe LiveData
+       binding.also {
+           it.lifecycleOwner = viewLifecycleOwner
+           it.viewModel = viewModel
+       }
 
         // Navigation from userfragment to albumfragment
         userdataAdapter = UserDataAdapter(UserItemClick {
@@ -74,7 +74,7 @@ class UserInfoFragment : Fragment() {
         })
 
         viewModel.navigateUserToAlbumFragment.observe(this, Observer {
-            if (null != it) {
+             it?.let {
                 this.findNavController().navigate(
                     UserInfoFragmentDirections.actionUserInfoFragmentToAlbumInfoFragment(it)
                 )
@@ -83,7 +83,7 @@ class UserInfoFragment : Fragment() {
         })
 
 
-        binding.root.findViewById<RecyclerView>(R.id.recycler_view).apply {
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = userdataAdapter
         }

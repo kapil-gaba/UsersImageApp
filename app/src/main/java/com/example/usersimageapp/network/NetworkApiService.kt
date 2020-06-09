@@ -19,15 +19,12 @@ private val moshi = Moshi.Builder()
     .build()
 
 //manually setting timeouts for slow network response
- val okHttpClient = okhttp3.OkHttpClient.Builder().
-     connectTimeout(1,TimeUnit.MINUTES).
-     readTimeout(30,TimeUnit.SECONDS).
-     writeTimeout(15,TimeUnit.SECONDS).
-     build()
+val okHttpClient = okhttp3.OkHttpClient.Builder().connectTimeout(1, TimeUnit.MINUTES)
+    .readTimeout(30, TimeUnit.SECONDS).writeTimeout(15, TimeUnit.SECONDS).build()
 
 
 // Configure common retrofit object to parse JSON and use coroutines
- val retrofit = Retrofit.Builder()
+val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .client(okHttpClient)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
@@ -52,7 +49,7 @@ object UsersApi {
  */
 interface AlbumsService {
     @GET("photos")
-    fun getAlbums(@Query("albumId") type : Int): Deferred<List<Albums>>
+    fun getAlbums(@Query("albumId") type: Int?): Deferred<List<Albums>>
 }
 
 object AlbumsApi {

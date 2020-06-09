@@ -28,7 +28,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        app:ApiStatus="@{viewModel.status}"
+        app:ApiStatus="@{viewModel.apiStatus}"
         tools:srcCompat="@drawable/loading_animation" />
 
 </FrameLayout>
